@@ -25,7 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.shipdream.lib.android.mvc.samples.simple.R;
-import com.shipdream.lib.android.mvc.samples.simple.controller.CounterController;
+import com.shipdream.lib.android.mvc.samples.simple.controller.ControllerB;
 import com.shipdream.lib.android.mvc.view.MvcFragment;
 
 import javax.inject.Inject;
@@ -44,9 +44,9 @@ public class FragmentB extends MvcFragment {
         public void run() {
             if (!canceled) {
                 if (incrementing) {
-                    counterController.increment(this);
+                    controller.increment(this);
                 } else {
-                    counterController.decrement(this);
+                    controller.decrement(this);
                 }
 
                 handler.postDelayed(this, INTERVAL);
@@ -59,7 +59,7 @@ public class FragmentB extends MvcFragment {
     }
 
     @Inject
-    private CounterController counterController;
+    private ControllerB controller;
 
     private TextView display;
     private Button increment;
@@ -129,13 +129,13 @@ public class FragmentB extends MvcFragment {
             }
         });
 
-        updateCountDisplay(counterController.getModel().getCount());
+        updateCountDisplay(controller.getCount());
     }
 
     @Override
     public boolean onBackButtonPressed() {
         //Use counterController to manage navigation back make navigation testable
-        counterController.goBackToBasicView(this);
+        controller.navigateBack(this);
         //Return true to not pass the back button pressed event to upper level handler.
         return true;
         //Or we can let the fragment manage back navigation back automatically where we don't
@@ -167,7 +167,7 @@ public class FragmentB extends MvcFragment {
         }
     }
 
-    private void onEvent(CounterController.EventC2V.OnCounterUpdated event) {
+    private void onEvent(ControllerB.EventC2V.OnCountUpdated event) {
         updateCountDisplay(event.getCount());
     }
 

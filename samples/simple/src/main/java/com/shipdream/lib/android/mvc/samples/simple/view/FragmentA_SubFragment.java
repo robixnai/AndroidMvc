@@ -21,14 +21,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.shipdream.lib.android.mvc.samples.simple.R;
-import com.shipdream.lib.android.mvc.samples.simple.controller.CounterController;
+import com.shipdream.lib.android.mvc.samples.simple.controller.ControllerASubView;
 import com.shipdream.lib.android.mvc.view.MvcFragment;
 
 import javax.inject.Inject;
 
 public class FragmentA_SubFragment extends MvcFragment {
     @Inject
-    private CounterController counterController;
+    private ControllerASubView controller;
 
     private TextView countInEnglish;
 
@@ -43,11 +43,10 @@ public class FragmentA_SubFragment extends MvcFragment {
 
         countInEnglish = (TextView) view.findViewById(R.id.fragment_a_sub_countInEnglish);
 
-        String text = counterController.convertNumberToEnglish(counterController.getModel().getCount());
-        countInEnglish.setText(text);
+        countInEnglish.setText(controller.getCountInEnglish());
     }
 
-    private void onEvent(CounterController.EventC2V.OnCounterUpdated event) {
+    private void onEvent(ControllerASubView.EventC2V.OnCountUpdated event) {
         countInEnglish.setText(event.getCountInEnglish());
     }
 }

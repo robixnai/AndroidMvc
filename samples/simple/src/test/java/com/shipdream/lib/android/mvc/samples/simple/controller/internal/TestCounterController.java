@@ -21,7 +21,6 @@ import com.shipdream.lib.android.mvc.MvcGraph;
 import com.shipdream.lib.android.mvc.manager.NavigationManager;
 import com.shipdream.lib.android.mvc.event.bus.EventBus;
 import com.shipdream.lib.android.mvc.event.bus.internal.EventBusImpl;
-import com.shipdream.lib.android.mvc.samples.simple.controller.CounterController;
 import com.shipdream.lib.android.mvc.samples.simple.model.CounterModel;
 
 import org.apache.log4j.ConsoleAppender;

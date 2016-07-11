@@ -24,7 +24,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
 import com.shipdream.lib.android.mvc.samples.simple.R;
-import com.shipdream.lib.android.mvc.samples.simple.controller.CounterController;
+import com.shipdream.lib.android.mvc.samples.simple.controller.CountServiceController;
 import com.shipdream.lib.android.mvc.view.MvcService;
 
 import javax.inject.Inject;
@@ -38,7 +38,7 @@ public class CountService extends MvcService{
         public void run() {
             if (!canceled) {
                 if (count ++ <= AUTO_FINISH_COUNT) {
-                    counterController.increment(this);
+                    controller.increment(this);
                     handler.postDelayed(this, 1000);
                 } else {
                     stopSelf();
@@ -52,7 +52,7 @@ public class CountService extends MvcService{
     }
 
     @Inject
-    private CounterController counterController;
+    private CountServiceController controller;
 
     private final static int NOTIFICATION_ID = 0;
     private Handler handler;
@@ -91,11 +91,9 @@ public class CountService extends MvcService{
     }
 
     /**
-     * Update notification when receiving count updated event. Note the notification is updated
-     * driven by the same event that is updating FragmentA, FragmentA_Sub and FragmentB.
-     * @param event The event. This event is also monitored by FragmentA, FragmentA_Sub and FragmentB
+     * Update notification when receiving count updated event.
      */
-    private void onEvent(CounterController.EventC2V.OnCounterUpdated event) {
+    private void onEvent(CountServiceController.EventC2V.OnCountUpdated event) {
         updateNotification(event.getCount());
     }
 
@@ -114,7 +112,7 @@ public class CountService extends MvcService{
 
     private void startAutoIncrement() {
         stopAutoIncrement();
-        updateNotification(counterController.getModel().getCount());
+        updateNotification(controller.getCount());
         autoCounter = new AutoCounter();
         autoCounter.run();
     }

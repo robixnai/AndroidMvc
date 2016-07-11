@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.shipdream.lib.android.mvc.manager.NavigationManager;
 import com.shipdream.lib.android.mvc.samples.simple.R;
-import com.shipdream.lib.android.mvc.samples.simple.controller.CounterController;
+import com.shipdream.lib.android.mvc.samples.simple.controller.ControllerA;
 import com.shipdream.lib.android.mvc.view.MvcFragment;
 
 import javax.inject.Inject;
@@ -33,7 +33,7 @@ public class FragmentA extends MvcFragment {
     private NavigationManager navigationManager;
 
     @Inject
-    private CounterController counterController;
+    private ControllerA controller;
 
     private TextView display;
     private Button increment;
@@ -69,14 +69,14 @@ public class FragmentA extends MvcFragment {
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                counterController.increment(v);
+                controller.increment(v);
             }
         });
 
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                counterController.decrement(v);
+                controller.decrement(v);
             }
         });
 
@@ -84,7 +84,7 @@ public class FragmentA extends MvcFragment {
             @Override
             public void onClick(View v) {
                 //Use counterController to manage navigation to make navigation testable
-                counterController.goToAdvancedView(v);
+                controller.goToAdvancedView(v);
                 //Or we can use NavigationManager directly though it's harder to unit test on
                 //controller level.
                 //example:
@@ -99,7 +99,7 @@ public class FragmentA extends MvcFragment {
                     .replace(R.id.fragment_a_anotherFragmentContainer, f).commit();
         }
 
-        updateCountDisplay(counterController.getModel().getCount());
+        updateCountDisplay(controller.getCount());
     }
 
     /**
@@ -108,12 +108,12 @@ public class FragmentA extends MvcFragment {
     @Override
     protected void onPoppedOutToFront() {
         super.onPoppedOutToFront();
-        updateCountDisplay(counterController.getModel().getCount());
+        updateCountDisplay(controller.getCount());
     }
 
     //Define event handler by method named as onEvent with single parameter of the event type
     //to respond event CounterController.EventC2V.OnCounterUpdated
-    private void onEvent(CounterController.EventC2V.OnCounterUpdated event) {
+    private void onEvent(ControllerA.EventC2V.OnCountUpdated event) {
         updateCountDisplay(event.getCount());
     }
 
